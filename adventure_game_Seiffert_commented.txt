@@ -1,0 +1,379 @@
+    # in order to be able to accelerate the print function 
+    # by giving it a time argument, the time module has to be imported
+
+import time
+
+
+    # for a little bit of variability by chance in the adventure game,
+    # the random module can be of great use
+
+import random
+
+
+    # the player has the possibility to collect items, so there is need
+    # for an empty list of items
+
+items = []
+
+
+    # defining list for possible colors (random-chosen) for a forest
+
+colors = ["green", "black", "brown", "red", "blue", "yellow"]
+
+
+    # defining random color choice
+
+my_color = random.choice(colors)
+
+
+    # defining random number of heads of the enemy monster
+
+my_length = random.randint(3, 6)
+
+
+    # defining random weapon 
+
+weapon = random.choice(["sword", "saber", "spear", "battle ax"])
+
+
+    # defining a function to be able to vary the speed of printing messages
+
+def print_sleep(message_to_print, time_to_wait):
+    print(message_to_print)
+    time.sleep(time_to_wait)
+
+
+    # defining an introduction
+
+def intro():
+    print_sleep("You have just woken up and find yourself on an\n"
+                "abandoned beach.\n", 5)
+    print_sleep("Behind the beach you can see a huge and dense\n"
+                + my_color + " forest.\n", 4)
+    print_sleep("On the other side of the beach the ocean extends\n"
+                "until the horizon.\n", 5)
+    print_sleep("You are tired and can not remember\n"
+                "how you came here to this place.\n"
+                "But you need to do something and move on.\n", 5)
+
+
+    # defining a transitioning telling part
+
+def transition():
+    print_sleep("It seems to be untouched by mankind\n"
+                "as there is not a single path through it.\n", 5)
+    print_sleep("Abundantly covered with vegetation and\n"
+                "a tree top which enables only slightest\n", 5)
+    print_sleep("amounts of light to pass through,\n"
+                "this forest was everything but a comfortable place.\n", 5)
+    print_sleep("After walking a little while you see a big bag\n"
+                "hanging from one tree on your left side.\n", 5)
+    print_sleep("You are in the process to have a closer look,\n"
+                "when you hear instantly a scream from not too far away.\n", 5)
+
+
+    # defining a transitioning telling part
+
+def transition2():
+    print_sleep("You move on and arrive on a kind of clearing\n"
+                "within the forest (even if it is still dark).\n", 5)
+    print_sleep(f"There is a big Xenomorphosaurus with {my_length}\n"
+                "heads trying to eat a small little, helpless fairy.\n", 5)
+    choice_4(items)
+
+
+    # defining the 1. choice of 2 possible actions
+
+def choice_1():
+    print_sleep("Where would you like to go?\n", 3)
+    print_sleep("Do you feel like swimming in the ocean\n"
+                "or adventuring in the forest?\n", 4)
+    choice = input("Press '1' for swimming or '2' for"
+                   " the forest adventure.\n\n")
+
+    if choice == '1':
+
+        first_choice()
+
+    elif choice == '2':
+
+        second_choice()
+
+    else:
+
+        choice_1()
+
+
+    # defining the consecutive steps after choosing 
+    # the 1. possibility of the 1. choice (game over)
+
+def first_choice():
+    print_sleep("You go into the ocean and try to swim,\n", 3)
+    print_sleep("but it turns out that you are not capable\n" +
+                "of doing it" + "...\n", 4)
+    print_sleep("..." + "you drown!\n", 3)
+    print_sleep("+++\n", 2)
+    print_sleep("Game Over\n", 2)
+    exit_game()
+
+
+    # defining the consecutive steps after choosing 
+    # the 2. possibility of the 2. choice (introduction to 2. choice)
+
+def second_choice():
+    print_sleep("You cross the beach and approach the forest.\n", 4)
+    print_sleep("When almost arrived there, you hear a distant \n"
+                "scream and stop" + "...\n", 5)
+    print_sleep("..." + "after a short dwelling time to calm down you\n"
+                "enter the forest" + "...\n", 5)
+
+
+    # defining the 2. choice of 2 possible actions
+
+def choice_2():
+    print_sleep("What do you plan to do?\n", 3)
+    print_sleep("Opening the bag or moving on?\n", 3)
+    choice2 = input("Press '1' for opening the bag or '2' for moving on\n\n")
+
+    if choice2 == '1':
+
+        first_choice2(items)
+
+    elif choice2 == '2':
+
+        second_choice2()
+
+    else:
+
+        choice_2()
+
+
+    # defining the consecutive steps after choosing 
+    # the 1. possibility of the 2. choice (introduction to the 3. choice)
+    # depending on the content of your list of items 
+    # and how often you already passed the 1. possibility of the 2. choice
+
+def first_choice2(items):
+    print_sleep("You open the bag and find among many other things\n", 4)
+    print_sleep("- most of it is worthless stuff -\n", 3)
+    if "book" in items and weapon in items:
+        print_sleep("more useless things. Most probably here\n"
+                    "is nothing to do anymore\n"
+                    "and you should move on.\n", 5)
+        choice_2()
+    elif "book" in items:
+        print_sleep("a " + weapon + "\n", 2)
+    elif weapon in items:
+        print_sleep("a magic book\n", 2)
+    else:
+        print_sleep("a magic book\n", 2)
+        print_sleep("and a " + weapon + ".\n", 2)
+    choice_3(items)
+
+
+    # defining the consecutive steps after choosing 
+    # the 2. possibility of the 2. choice (introduction to the 4. choice)
+
+def second_choice2():
+    transition2()
+
+
+    # defining the 3. choice of 2 possible actions 
+    # depending on the content of your list of items 
+    # and how often you already passed the 1. possibility of the 2. choice
+
+def choice_3(items):
+    if weapon in items:
+        choose3a = input("Do you take the book? y/no\n\n").lower()
+        if choose3a in ["y", "yes"]:
+            first_choice3(items)
+        elif choose3a in ["n", "no"]:
+            choice_2()
+        else:
+            choice_3(items)
+    elif "book" in items:
+        choose3b = input("Do you take the " + weapon + "? y/no\n\n").lower()
+        if choose3b in ["y", "yes"]:
+            second_choice3(items)
+        elif choose3b in ["n", "no"]:
+            choice_2()
+        else:
+            choice_3(items)
+    else:
+        print_sleep("What do you prefer? The book or the " + weapon + "?\n", 4)
+        choice3 = input("Press '1' for book or '2' for " + weapon + "\n\n")
+
+        if choice3 == '1':
+
+            first_choice3(items)
+
+        elif choice3 == '2':
+
+            second_choice3(items)
+
+        else:
+
+            choice_3(items)
+
+
+    # defining the consecutive steps after choosing 
+    # the 1. possibility of the 3. choice (adding a book to the content of your list of items
+    # and introduction to the 4. choice)
+
+def first_choice3(items):
+    print_sleep("You take the book.\n", 2)
+    items.append("book")
+    transition2()
+
+
+    # defining the consecutive steps after choosing 
+    # the 2. possibility of the 3. choice (adding a weapon (random-chosen) to the content of 
+    # your list of items and introduction to the 4. choice)
+
+def second_choice3(items):
+    print_sleep("You take the " + weapon + ".\n", 2)
+    items.append(weapon)
+    transition2()
+
+
+    # defining the 4. choice of 2 possible actions
+ 
+def choice_4(items):
+    print_sleep("What do you do? Fight the Xenomorphosaurus or escape?\n", 4)
+    choice4 = input("Press '1' for fighting or '2' for escaping\n\n")
+
+    if choice4 == '1':
+
+        first_choice4(items)
+
+    elif choice4 == '2':
+
+        second_choice4()
+
+    else:
+
+        choice_4(items)
+
+
+    # defining the consecutive steps after choosing 
+    # the 1. possibility of the 4. choice
+    # depending on the content of your list of items 
+    # and how often you already passed the 1. possibility of the 2. choice
+    # (fighting and loosing or winning against the enemy monster)
+
+def first_choice4(items):
+    print_sleep("You fight the Xenomorphosaurus.\n", 3)
+    if "book" in items:
+        print_sleep("You open the magic book and use the special\n"
+                    "spell against scary creatures\n"
+                    "'wig weg wog gee nuu fort'" + "...\n", 5)
+        print_sleep("..."+"the Xenomorphosaurus disappears.\n", 4)
+        print_sleep("The fairy is free and very thankful to you.\n", 4)
+        print_sleep("She gives you a huge hug and asks if you want\n"
+                    "to accompany her to the Big Fairy Town.\n", 5)
+        choice_5()
+    elif weapon in items:
+        print_sleep("You fight against the Xenomorphosaurus\n"
+                    "using your newly acquired " + weapon + ".\n", 5)
+        print_sleep("Unfortunately, your " + weapon + " is too weak and\n"
+                    "you have to escape.\n", 5)
+        print_sleep("You escape and come back to the tree\n"
+                    "with the hanging bag.\n", 5)
+        choice_2()
+    else:
+        print_sleep("You fight with your bare hands as you don" "'" "t\n"
+                    "have any weapon.\n", 5)
+        print_sleep("The Xenomorphosaurus is by far\n"
+                    "stronger than you and eats you.\n", 5)
+        print_sleep("+++\n", 2)
+        print_sleep("Game Over\n", 2)
+        exit_game()
+
+
+    # defining the consecutive steps after choosing 
+    # the 2. possibility of the 4. choice (return to the 2. choice)
+
+def second_choice4():
+    print_sleep("You escape and come back to the\n"
+                "tree with the hanging bag.\n", 5)
+    choice_2()
+
+
+    # defining the 5. choice of 2 possible actions
+
+def choice_5():
+    print_sleep("Do you want to join her or stay in the forest?\n", 4)
+    choice5 = input("Press '1' to join or '2' to stay\n\n")
+
+    if choice5 == '1':
+
+        first_choice5()
+
+    elif choice5 == '2':
+
+        second_choice5()
+
+    else:
+        choice_5()
+
+
+    # defining the consecutive steps after choosing 
+    # the 1. possibility of the 5. choice (Fairy Town and exit game)
+
+def first_choice5():
+    print_sleep("You go with the fairy to Big Fairy Town\n"
+                "to start a new adventure.\n", 5)
+    print_sleep("But this is another story...\n", 4)
+    print_sleep("Congratulations, you won!\n", 5)
+    remove_items(items)
+    exit_game()
+
+    # defining the consecutive steps after choosing 
+    # the 2. possibility of the 5. choice (Forest and exit game)
+
+def second_choice5():
+    print_sleep("You stay in the forest and continue\n"
+                "to experience another adventure.\n", 5)
+    print_sleep("But this is another story...\n", 4)
+    print_sleep("Congratulations, you won!\n", 5)
+    remove_items(items)
+    exit_game()
+
+
+    # exit the game
+
+def exit_game():
+    print_sleep("Thank you for playing!\n", 3)
+    again_playing()
+
+
+    # defining a user input if she/he would like to play again
+
+def again_playing():
+    choose = input("Do you want to play again? y/n\n\n").lower()
+    if choose in ["n", "no"]:
+        exit()
+    elif choose in ["y", "yes"]:
+        play_game()
+    else:
+        again_playing()
+
+    # clear the list of items for the next game
+def remove_items(items):
+    items.remove("book")
+    if weapon in items:
+        items.remove(weapon)
+
+    # defining a function which coordinates the different steps while the game is played
+def play_game():
+
+    intro()
+
+    choice_1()
+
+    transition()
+
+    choice_2()
+
+    # calling the previous function to play the game
+play_game()
